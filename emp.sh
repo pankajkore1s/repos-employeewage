@@ -14,15 +14,13 @@ function WageCalculation(){
 	echo $value
 }
 
-if [ $checkAttendance == $isPresent ]
-	then
+case $checkAttendance in
+	$isPresent)
 		echo "employee is present"
-		`echo WageCalculation $FullDayHour $WagePerHour`
-	
-	elif [ $checkAttendance == $isParttime ]
-	then
+                `echo WageCalculation $FullDayHour $WagePerHour`;;
+	$isParttime)
 		echo "employee is doing partime"
-		`echo WageCalculation $ParttimeWorkingHour $WagePerHour`
-	else
+                `echo WageCalculation $ParttimeWorkingHour $WagePerHour`;;
+	*)
 		echo "employee is absent"
-fi
+esac
