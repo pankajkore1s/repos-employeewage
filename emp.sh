@@ -2,25 +2,37 @@
 echo "welcome to employee wage computation"
 isPresent='1'
 isParttime='2'
-checkAttendance=$((RANDOM%3))
 WagePerHour=20
 FullDayHour=8
 ParttimeWorkingHour=4
+WorkedDaysForMonth=20
+WorkedDay=1
+TotalSalary=0
 
 function WageCalculation(){
 	local workingHourPerDay=$1
 	local WageRecievedPerHour=$2
+	local TotalSalaryWorkedDaysForMonth=$3
 	value=$(( $workingHourPerDay * $WageRecievedPerHour ))
-	echo $value
+	TotalSalaryWorkedDaysForMonth=$(( $value + $TotalSalaryWorkedDaysForMonth ))
+	echo  $TotalSalaryWorkedDaysForMonth
 }
+while [ $WorkedDay -le $WorkedDaysForMonth ]
+do
+checkAttendance=$((RANDOM%3))
+	case $checkAttendance in
+		$isPresent)
+			echo "employee is present"
+                	TotalSalary=`WageCalculation $FullDayHour $WagePerHour $TotalSalary`
+			((WorkedDay++))
+			echo $TotalSalary;;
+		$isParttime)
+			echo "employee is doing partime"
+                	TotalSalary=`WageCalculation $ParttimeWorkingHour $WagePerHour $TotalSalary`
+			((TotalSalary++))
+			echo $TotalSalary;;
 
-case $checkAttendance in
-	$isPresent)
-		echo "employee is present"
-                `echo WageCalculation $FullDayHour $WagePerHour`;;
-	$isParttime)
-		echo "employee is doing partime"
-                `echo WageCalculation $ParttimeWorkingHour $WagePerHour`;;
-	*)
-		echo "employee is absent"
-esac
+		*)
+			echo "employee is absent"
+	esac
+done
