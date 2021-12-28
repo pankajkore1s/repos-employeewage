@@ -19,6 +19,15 @@ function WageCalculation(){
 	TotalSalaryWorkedDaysForMonth=$(( $value + $TotalSalaryWorkedDaysForMonth ))
 	echo  $TotalSalaryWorkedDaysForMonth
 }
+
+function TotalHour(){
+	local pWorkingHour=$1
+	local DayWorkingHour=$2
+	echo $(( $pWorkingHour + $DayWorkingHour ))
+}
+
+
+
 while [ $WorkedDay -le $WorkedDaysForMonth ] && [ $PreviousTotalWorkingHour -le $TotalWorkingHourPossible ]
 do
 checkAttendance=$((RANDOM%3))
@@ -26,12 +35,12 @@ checkAttendance=$((RANDOM%3))
 		$isPresent)
 			echo "employee is present"
                 	TotalSalary=`WageCalculation $FullDayHour $WagePerHour $TotalSalary`
-			PreviousTotalWorkingHour=$(($PreviousTotalWorkingHour + $FullDayHour ))
+			PreviousTotalWorkingHour=`TotalHour $PreviousTotalWorkingHour $FullDayHour`
 			echo $TotalSalary;;
 		$isParttime)
 			echo "employee is doing partime"
                 	TotalSalary=`WageCalculation $ParttimeWorkingHour $WagePerHour $TotalSalary`
-			PreviousTotalWorkingHour=$(($PreviousTotalWorkingHour + $ParttimeWorkingHour ))
+			PreviousTotalWorkingHour=`TotalHour $PreviousTotalWorkingHour $ParttimeWorkingHour`
 			echo $TotalSalary;;
 
 		*)
